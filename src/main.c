@@ -6,6 +6,7 @@
 
 int main(int argc, char *argv[]) {
 	char current_dir[100];
+	const char *version = "ProMan v0.0.1";
 
 	if (argc == 1) {
 		printf("ProMan v0.0.1\nMissing command-line args\n");
@@ -16,6 +17,8 @@ int main(int argc, char *argv[]) {
 			printf("Error: Command 'new' requires extra parameters.\n");
 		} else if (strcmp(argv[1], "del") == 0) {
 			printf("Error: Command 'del' requires extra parameters.\n");
+		} else if (strcmp(argv[1], "version") == 0) {
+			printf("%s\n", version);
 		} else {
 			printf("Error: Unknown argument\n");
 		}
