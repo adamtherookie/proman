@@ -29,3 +29,6 @@ clean:
 	@ echo "[ CLEAN ]"
 	@ rm -rf $(OFILES) $(TARGET)
 
+install:
+	@ sudo cp ./proman /usr/bin
+	@ echo "Installed!"
