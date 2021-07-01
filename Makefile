@@ -12,10 +12,10 @@ OFILES := $(CFILES:.c=.o)
 
 TARGET = proman
 
-all: clean compile
+all: clean compile install
 
 compile: ld
-	@ echo "Done!"
+	@ echo "Compiled!"
 	
 ld: $(OFILES)
 	@ echo "[ LD ] -  $^"
