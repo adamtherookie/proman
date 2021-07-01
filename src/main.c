@@ -7,6 +7,7 @@
 int main(int argc, char *argv[]) {
 	char current_dir[100];
 	const char *version = "ProMan v0.0.1";
+	int temp = 0;
 
 	if (argc == 1) {
 		printf("ProMan v0.0.1\nMissing command-line args\n");
@@ -25,8 +26,10 @@ int main(int argc, char *argv[]) {
 	} else if (argc == 3) {
 		if (strcmp(argv[1], "new") == 0 && getcwd(current_dir, sizeof(current_dir)) != NULL) {
 			printf("+ Creating new directory '%s' in %s\n", argv[2], current_dir);
-			new(argv[2]);
-			printf("+ Done!\n");
+			temp = new(argv[2]);
+			if (temp) {
+				printf("+ Done!\n");
+			}
 		} else if (strcmp(argv[1], "del") == 0 && getcwd(current_dir, sizeof(current_dir)) != NULL) {
 			printf("+ Deleting project '%s'\n", argv[2]);
 		}

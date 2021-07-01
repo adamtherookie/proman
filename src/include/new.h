@@ -4,7 +4,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdio.h>
 
-void new(char *name);
+int new(char *name);
 
 #endif

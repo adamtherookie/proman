@@ -18,11 +18,11 @@ compile: ld
 	@ echo "Compiled!"
 	
 ld: $(OFILES)
-	@ echo "[ LD ] -  $^"
+	@ echo "[ LD ] + $^"
 	@ $(LD) $^ -o $(TARGET)
 
 %.o: %.c
-	@ echo "[ CC ] -  $<"
+	@ echo "[ CC ] + $<"
 	@ $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -31,4 +31,5 @@ clean:
 
 install:
 	@ sudo cp ./proman /usr/bin
+	@ touch ~/proman.cfg
 	@ echo "Installed!"
