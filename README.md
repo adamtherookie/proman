@@ -1,2 +1,2 @@
 # ProMan
-ProMan is a project manager for C/C++, writting in C (ironic, right?).
+ProMan is a project manager for C/C++, written in C (ironic, right?).
