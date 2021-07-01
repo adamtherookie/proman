@@ -18,11 +18,11 @@ compile: ld
 	@ echo "Done!"
 	
 ld: $(OFILES)
-	@ echo "[ LD ] $^"
+	@ echo "[ LD ] -  $^"
 	@ $(LD) $^ -o $(TARGET)
 
 %.o: %.c
-	@ echo "[ CC ] $<"
+	@ echo "[ CC ] -  $<"
 	@ $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
