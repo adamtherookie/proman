@@ -31,5 +31,6 @@ clean:
 
 install:
 	@ sudo cp ./proman /usr/bin
-	@ touch ~/proman.cfg
+	@ mkdir -p ~/proman
+	@ touch ~/proman/proman.cfg
 	@ echo "Installed!"

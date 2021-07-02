@@ -29,6 +29,8 @@ int main(int argc, char *argv[]) {
 			temp = new(argv[2]);
 			if (temp) {
 				printf("+ Done!\n");
+			} else {
+				printf("+ Error: Could not create directory: '%s'\n", argv[2]);
 			}
 		} else if (strcmp(argv[1], "del") == 0 && getcwd(current_dir, sizeof(current_dir)) != NULL) {
 			printf("+ Deleting project '%s'\n", argv[2]);
