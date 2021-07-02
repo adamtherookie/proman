@@ -31,7 +31,7 @@ struct stat st = {0};
     //  │    └── info.toml
     //  ├── src
     //  │    ├── include
-    //  │    │    └── [main header]  
+    //  │    │    └── [main header]
     //  │    └── [main file]
     //  ├── Makefile
     //  └── README.md
@@ -47,7 +47,24 @@ int new(char *name) {
 		scanf("%d", &type);
 	} while(type != 1 && type != 2);
 
+	// Check if there is a git repo somewhere :/
+	char git = 'c';
+	do {
+		printf("➡ Do you already have a git repository for this project? (y or n):  ");
+		scanf("%c", &git);
+	} while(git != 'y' && git != 'n');
 
+	if (git == 'y') {
+		char *url = malloc(sizeof(char) * 100);
+		printf("➡ Enter the URL to your git repository: ");
+		scanf("%s", &*(url));
+	} else {
+		char init_git = 'c';
+		do {
+			printf("➡ Do you want to initialize this project as a git repository? (y or n): ");
+			scanf("%c", &init_git);
+		} while(init_git != 'y' && init_git != 'n');
+	}
 
 	FILE *readme, *info, *main, *mainh, *makefile, *config;
 	
