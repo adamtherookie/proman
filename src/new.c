@@ -31,8 +31,8 @@ struct stat st = {0};
     //  │    └── info.toml
     //  ├── src
     //  │    ├── include
-	//  │    │    └── [main header]  
-	//  │    └── [main file]
+    //  │    │    └── [main header]  
+    //  │    └── [main file]
     //  ├── Makefile
     //  └── README.md
 
@@ -111,12 +111,13 @@ int new(char *name) {
     	fprintf(readme, "# %s\n", name);
     	fclose(readme);
 
-    	// info.toml
+    	// info.txt
     	strcpy(file_path, current);
     	strcat(file_path, name);
     	strcat(file_path, info_path);
     	printf("+ Creating file %s\n", file_path);
     	info = fopen(file_path, "w");
+    	fprintf(info, "[name: %s]\n[type: %d]\n----\n", name, type);
     	fclose(info);
 
     	// main.c / main.cpp
@@ -125,8 +126,8 @@ int new(char *name) {
     	strcat(file_path, main_path);
     	printf("+ Creating file %s\n", file_path);
     	main = fopen(file_path, "w");
-    	if (type == 1) fprintf(main, "#include <stdio.h>\n\nint main(void) {\n  printf('Hello world!');\n}\n");
-    	else fprintf(main, "#include <iostream>\n\nint main(void) {\n  std::cout << 'Hello world!');\n}\n");
+    	if (type == 1) fprintf(main, "#include <stdio.h>\n\nint main(void) {\n  printf(\"Hello world!\\n\");\n}\n");
+    	else fprintf(main, "#include <iostream>\n\nint main(void) {\n  std::cout << \"Hello world!\";\n}\n");
     	fclose(main);
 
     	// main.h
@@ -144,6 +145,9 @@ int new(char *name) {
     	strcat(file_path, make_path);
     	printf("+ Creating file %s\n", file_path);
     	makefile = fopen(file_path, "w");
+    	if (type == 1) { 
+    		fprintf(makefile, "LD = gcc\nCC = gcc\n\nCFLAGS := \\\n		-Isrc/include \\\n	-Wall \\\n	-Wextra \\\n	-std=gnu99 \\\n\nCFILES := $(shell find src/ -name '*.c')\nOFILES := $(CFILES:.c=.o)\n\nTARGET = %s\n\nall: clean compile\n\ncompile: ld\n	@ echo \"Done!\"\n\nld: $(OFILES)\n	@ echo \"[LD] $^\"\n	@ $(LD) $^ -o $(TARGET)\n\n%%.o: %%.c\n		@ echo \"[CC] $<\"\n	@ $(CC) $(CFLAGS) -c $< -o $@\n\nclean:\n	@ echo \"[CLEAN]\"\n	@ rm -rf $(OFILES) $(TARGET)\n", name);
+    	}
     	fclose(makefile);
 
     	// Config
