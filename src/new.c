@@ -49,7 +49,7 @@ int new(char *name) {
 
 
 
-	FILE *readme, *info, *main, *mainh, *makefile /*, *config */;
+	FILE *readme, *info, *main, *mainh, *makefile, *config;
 	
 	// Directory paths
 	char *src = "/src";
@@ -60,7 +60,7 @@ int new(char *name) {
 
 
 	// File paths
-	char *info_path = "/.proman/info.toml";
+	char *info_path = "/.proman/info.txt";
 	char *main_header_path = "/src/include/main.h";
 	char *main_path = " ";
 	if (type == 1) main_path = "/src/main.c";
@@ -69,8 +69,6 @@ int new(char *name) {
 	char *make_path = "/Makefile";
 	char *readme_path = "/README.md";
 	char *file_path = (char *) malloc(3 + strlen(main_header_path)+ strlen(main_path) ); 
-
-	// char *config_path = "~/proman/proman.cfg";
 
 	if (stat(name, &st) == -1) {
     	mkdir(name, 0700);
@@ -149,13 +147,22 @@ int new(char *name) {
     	fclose(makefile);
 
     	// Config
-    	//printf("+ Adding '%s' to config file\n", name);
-    	//config = fopen(config_path, "a");
-    	//fputs("Hello", config);
-    	//fclose(config);
+    	char *home = getenv("HOME");
+    	char *config_file = "/proman/proman.cfg";
+    	char *temp = (char *) malloc(strlen(home) + strlen(config_file) + 1);
+    	strcpy(temp, home);
+    	strcat(temp, config_file);
+    	printf("+ Adding '%s' to config file\n", name);
+    	config = fopen(temp, "a");
+    	if (config == NULL) printf("Error: could not open config file\n");
+    	else {
+    		fprintf(config, "[name: %s]\n[type: %d]\n----\n", name, type);
+    		fclose(config);
+    	}
 
     	free(dir);
     	free(file_path);
+    	free(temp);
 	} else {
 		printf("Error: Directory '%s' already exists\n", name);
 		return 0;
