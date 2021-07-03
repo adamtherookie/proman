@@ -28,7 +28,7 @@ struct stat st = {0};
 
     // [name]
     //  ├── .proman
-    //  │    └── info.toml
+    //  │    └── info.txt
     //  ├── src
     //  │    ├── include
     //  │    │    └── [main header]
@@ -48,18 +48,18 @@ int new(char *name) {
 	} while(type != 1 && type != 2);
 
 	// Check if there is a git repo somewhere :/
-	char git = 'c';
+	char git = ' ';
+	char init_git = ' ';
+	char *url = malloc(sizeof(char) * 100);
 	do {
 		printf("➡ Do you already have a git repository for this project? (y or n):  ");
 		scanf("%c", &git);
 	} while(git != 'y' && git != 'n');
 
 	if (git == 'y') {
-		char *url = malloc(sizeof(char) * 100);
 		printf("➡ Enter the URL to your git repository: ");
 		scanf("%s", &*(url));
 	} else {
-		char init_git = 'c';
 		do {
 			printf("➡ Do you want to initialize this project as a git repository? (y or n): ");
 			scanf("%c", &init_git);
@@ -74,7 +74,6 @@ int new(char *name) {
 	char *current = "./";
 	char *proman = "/.proman";
 	char *dir = (char *) malloc(3 + strlen(src)+ strlen(include) ); 
-
 
 	// File paths
 	char *info_path = "/.proman/info.txt";
@@ -179,6 +178,20 @@ int new(char *name) {
     	else {
     		fprintf(config, "[name: %s]\n[type: %d]\n----\n", name, type);
     		fclose(config);
+    	}
+
+    	///////////////
+    	// Git stuff //
+    	///////////////
+
+    	if (init_git == 'y') {
+    		char *command = "git init ";
+    		char *git_command = malloc(strlen(command) + strlen(name) + 1);
+    		strcpy(git_command, command);
+    		strcat(git_command, name);
+    		system(git_command);
+
+    		free(git_command);
     	}
 
     	free(dir);
