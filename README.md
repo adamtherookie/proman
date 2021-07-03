@@ -13,7 +13,7 @@ Installing is really easy, just:
 git clone https://github.com/aa2006/proman
 # Go into the repo
 cd proman
-# Build and install
+# Build and install (has to be run as root)
 make all
 ```
 Now run `proman version`. It should output the version if everything went correctly.
