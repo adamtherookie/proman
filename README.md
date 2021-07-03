@@ -1,12 +1,12 @@
 # ProMan
 ProMan is a project manager for C/C++, written in C (ironic, right?).
 
-# Features
+## Features
 - [X] Successfully creates project structure for C/C++
 - [X] Successfully writes base code to files
 - [ ] Git integration (in progress)
 
-# Installing
+## Installing
 Installing is really easy, just:
 ```bash
 # Clone this repo
@@ -18,7 +18,7 @@ make all
 ```
 Now run `proman version`. It should output the version if everything went correctly.
 
-# Structure:
+## Structure:
 Running `proman new [project_name]` will create a directory called `[project_name]` in the current working directory with the following structure after prompting you for some information about your project:
 ```
      [name]
