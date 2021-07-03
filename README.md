@@ -1,6 +1,11 @@
 # ProMan
 ProMan is a project manager for C/C++, written in C (ironic, right?).
 
+# Features
+- [X] Successfully creates project structure for C/C++
+- [X] Successfully writes base code to files
+- [ ] Git integration (in progress)
+
 # Installing
 Installing is really easy, just:
 ```bash
