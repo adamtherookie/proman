@@ -48,8 +48,8 @@ int new(char *name) {
 	} while(type != 1 && type != 2);
 
 	// Check if there is a git repo somewhere :/
-	char git = ' ';
-	char init_git = ' ';
+	char git;
+	char init_git;
 	char *url = malloc(sizeof(char) * 100);
 	do {
 		printf("➡ Do you already have a git repository for this project? (y or n):  ");
@@ -176,7 +176,7 @@ int new(char *name) {
     	config = fopen(temp, "a");
     	if (config == NULL) printf("Error: could not open config file\n");
     	else {
-    		fprintf(config, "[name: %s]\n[type: %d]\n----\n", name, type);
+    		fprintf(config, "[name: %s]\n[type: %d]\n----\n", name, type, );
     		fclose(config);
     	}
 
