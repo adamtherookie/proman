@@ -184,11 +184,24 @@ int new(char *name) {
     	// Git stuff //
     	///////////////
 
+    	if (git == 'y') init_git = 'y';
+
     	if (init_git == 'y') {
     		char *command = "git init ";
     		char *git_command = malloc(strlen(command) + strlen(name) + 1);
     		strcpy(git_command, command);
     		strcat(git_command, name);
+    		system(git_command);
+
+    		free(git_command);
+    	}
+
+    	if (git == 'y') {
+    		char *command = "git remote add origin ";
+    		char *git_command = malloc(strlen(command) + strlen(url) + 1);    		strcpy(git_command, command);
+    		strcat(git_command, url);
+
+    		chdir(name);
     		system(git_command);
 
     		free(git_command);
