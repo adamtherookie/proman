@@ -30,7 +30,7 @@ clean:
 	@ rm -rf $(OFILES) $(TARGET)
 
 install:
-	@ sudo cp ./proman /usr/bin
+	@ cp ./proman /usr/bin
 	@ mkdir -p ~/proman
 	@ touch ~/proman/proman.cfg
 	@ echo "Installed!"
