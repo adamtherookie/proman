@@ -56,11 +56,14 @@ int new(char *name, char *pwd) {
    // Get some info:
 
 	// Check if it's a C project or C++
-	int type = 0;
+	int type = -1;
 	do {
 		printf("➡ Enter the project type: (1- C, 2- C++): ");
-		scanf("%d", &type);
-	} while(type != 1 && type != 2);
+		char input;
+		scanf("%c", &input);
+		if (input == '1') type = 1;
+		else if (input == '2') type = 0;
+	} while(type == -1);
 
 	// Check if there is a git repo somewhere :/
 	char git = ' ';
@@ -202,7 +205,11 @@ int new(char *name, char *pwd) {
 
     	if (config == NULL) printf("Error: could not open config file\n");
     	else {
+<<<<<<< HEAD
     		fprintf(config, "[name: %s]\n[type: %d]\n[git: %c]\n[path: %s]\n----\n", name, type, config_git, project_path);
+=======
+    		fprintf(config, "[name: %s]\n[type: %d]\n----\n", name, type);
+>>>>>>> ded3838196204c574852dcec48235e1210c4d746
     		fclose(config);
     	}
 
