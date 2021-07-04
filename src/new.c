@@ -36,7 +36,22 @@ struct stat st = {0};
     //  ├── Makefile
     //  └── README.md
 
-int new(char *name) {
+int new(char *name, char *pwd) {
+
+	// First of all, check if the user has a project with the same name, cuz its gonna get confusing, like this comment when it gets really long, i know i should stop right now but i just cant, its like when you want to stop something really bad but you cant, like, im trying to think of an example but i cant so sorry. anyway this comment is really long so i think i have to stop cuz this is not gud. *deap breath* *cough* *cough*
+	char buf[7];
+	// open config file, i know, i know, I already have another var but I'm too lazy to bring it over here and change stuff so can some nice contributer do this? I mean, if you're reading this comment can't *you* do it? *please*?
+	FILE *check_name_in_config;
+
+	char *home = getenv("HOME");
+ 	char *config_file = "/proman/proman.cfg";
+ 	char *temp = (char *) malloc(strlen(home) + strlen(config_file) + 1);
+ 	strcpy(temp, home);
+ 	strcat(temp, config_file);
+ 	printf("+ Checking if '%s' is in config file\n", name);
+ 	check_name_in_config = fopen(temp, "r");
+
+ 	free(check_name_in_config);
 
    // Get some info:
 
@@ -48,23 +63,25 @@ int new(char *name) {
 	} while(type != 1 && type != 2);
 
 	// Check if there is a git repo somewhere :/
-	char git;
-	char init_git;
+	char git = ' ';
+	char init_git = ' ';
 	char *url = malloc(sizeof(char) * 100);
-	do {
+	while(git != 'y' && git != 'n') {
 		printf("➡ Do you already have a git repository for this project? (y or n):  ");
 		scanf("%c", &git);
-	} while(git != 'y' && git != 'n');
-
+	}
 	if (git == 'y') {
 		printf("➡ Enter the URL to your git repository: ");
 		scanf("%s", &*(url));
 	} else {
-		do {
+		while(init_git != 'y' && init_git != 'n') {
 			printf("➡ Do you want to initialize this project as a git repository? (y or n): ");
-			scanf("%c", &init_git);
-		} while(init_git != 'y' && init_git != 'n');
+			scanf("%c", &init_git);			
+		}
 	}
+
+	char config_git = 'n';
+	if (init_git == 'y' || git == 'y') config_git = 'y';
 
 	FILE *readme, *info, *main, *mainh, *makefile, *config;
 	
@@ -86,6 +103,12 @@ int new(char *name) {
 	char *readme_path = "/README.md";
 	char *file_path = (char *) malloc(3 + strlen(main_header_path)+ strlen(main_path) ); 
 
+   	char *project_path = (char *) malloc(strlen(pwd) + strlen(name) + 3);
+	strcpy(project_path, pwd);
+	strcat(project_path, "/");
+	strcat(project_path, name);
+
+	if (git == 'y') init_git = 'y';
 	if (stat(name, &st) == -1) {
     	mkdir(name, 0700);
 
@@ -133,7 +156,7 @@ int new(char *name) {
     	strcat(file_path, info_path);
     	printf("+ Creating file %s\n", file_path);
     	info = fopen(file_path, "w");
-    	fprintf(info, "[name: %s]\n[type: %d]\n----\n", name, type);
+    	fprintf(info, "[name: %s]\n[type: %d]\n[git: %c]\n[path: %s]\n----\n", name, type, config_git, project_path);
     	fclose(info);
 
     	// main.c / main.cpp
@@ -143,7 +166,7 @@ int new(char *name) {
     	printf("+ Creating file %s\n", file_path);
     	main = fopen(file_path, "w");
     	if (type == 1) fprintf(main, "#include <stdio.h>\n\nint main(void) {\n  printf(\"Hello world!\\n\");\n}\n");
-    	else fprintf(main, "#include <iostream>\n\nint main(void) {\n  std::cout << \"Hello world!\";\n}\n");
+    	else fprintf(main, "#include <iostream>\n\nint main(void) {\n  std::cout << \"Hello world!\\n\";\n}\n");
     	fclose(main);
 
     	// main.h
@@ -163,6 +186,8 @@ int new(char *name) {
     	makefile = fopen(file_path, "w");
     	if (type == 1) { 
     		fprintf(makefile, "LD = gcc\nCC = gcc\n\nCFLAGS := \\\n		-Isrc/include \\\n	-Wall \\\n	-Wextra \\\n	-std=gnu99 \\\n\nCFILES := $(shell find src/ -name '*.c')\nOFILES := $(CFILES:.c=.o)\n\nTARGET = %s\n\nall: clean compile\n\ncompile: ld\n	@ echo \"Done!\"\n\nld: $(OFILES)\n	@ echo \"[LD] $^\"\n	@ $(LD) $^ -o $(TARGET)\n\n%%.o: %%.c\n		@ echo \"[CC] $<\"\n	@ $(CC) $(CFLAGS) -c $< -o $@\n\nclean:\n	@ echo \"[CLEAN]\"\n	@ rm -rf $(OFILES) $(TARGET)\n", name);
+    	} else {
+    		fprintf(makefile, "LD = g++\nCC = g++\n\nCFLAGS := \\\n		-Isrc/include \\\n	-Wall \\\n	-Wextra \\\n\nCFILES := $(shell find src/ -name '*.cpp')\nOFILES := $(CFILES:.cpp=.o)\n\nTARGET = %s\n\nall: clean compile\n\ncompile: ld\n	@ echo \"Done!\"\n\nld: $(OFILES)\n	@ echo \"[LD] $^\"\n	@ $(LD) $^ -o $(TARGET)\n\n%%.o: %%.cpp\n		@ echo \"[CC] $<\"\n	@ $(CC) $(CFLAGS) -c $< -o $@\n\nclean:\n	@ echo \"[CLEAN]\"\n	@ rm -rf $(OFILES) $(TARGET)\n", name);
     	}
     	fclose(makefile);
 
@@ -174,17 +199,16 @@ int new(char *name) {
     	strcat(temp, config_file);
     	printf("+ Adding '%s' to config file\n", name);
     	config = fopen(temp, "a");
+
     	if (config == NULL) printf("Error: could not open config file\n");
     	else {
-    		fprintf(config, "[name: %s]\n[type: %d]\n----\n", name, type, );
+    		fprintf(config, "[name: %s]\n[type: %d]\n[git: %c]\n[path: %s]\n----\n", name, type, config_git, project_path);
     		fclose(config);
     	}
 
     	///////////////
     	// Git stuff //
     	///////////////
-
-    	if (git == 'y') init_git = 'y';
 
     	if (init_git == 'y') {
     		char *command = "git init ";

@@ -27,6 +27,8 @@
 #include <unistd.h>
 
 #include <new.h>
+#include <git/push.h>
+#include <git/pull.h>
 
 int main(int argc, char *argv[]) {
 	char current_dir[100];
@@ -42,6 +44,8 @@ int main(int argc, char *argv[]) {
 			printf("Error: Command 'new' requires extra parameters.\n");
 		} else if (strcmp(argv[1], "del") == 0) {
 			printf("Error: Command 'del' requires extra parameters.\n");
+		} else if (strcmp(argv[1], "push") == 0) {
+			printf("Error: Command 'push' requires extra parameters.\n");
 		} else if (strcmp(argv[1], "version") == 0) {
 			printf("%s\n", version);
 		} else {
@@ -50,11 +54,19 @@ int main(int argc, char *argv[]) {
 	} else if (argc == 3) {
 		if (strcmp(argv[1], "new") == 0 && getcwd(current_dir, sizeof(current_dir)) != NULL) {
 			printf("+ Creating new directory '%s' in %s\n", argv[2], current_dir);
-			temp = new(argv[2]);
+			temp = new(argv[2], current_dir);
 			if (temp) {
 				printf("+ Done!\n");
 			} else {
-				printf("+ Error: Could not create directory: '%s'\n", argv[2]);
+				printf("+ Error: Could not create project: '%s'\n", argv[2]);
+			}
+		} else if (strcmp(argv[1], "push") == 0 && getcwd(current_dir, sizeof(current_dir)) != NULL) {
+			printf("+ Pushing changes in directory '%s'\n", current_dir);
+			temp = push(argv[2], current_dir);
+			if (temp) {
+				printf("+ Done!\n");
+			} else {
+				printf("+ Error: Could not push changes in directory: '%s'\n", current_dir);
 			}
 		} else if (strcmp(argv[1], "del") == 0 && getcwd(current_dir, sizeof(current_dir)) != NULL) {
 			printf("+ Deleting project '%s'\n", argv[2]);

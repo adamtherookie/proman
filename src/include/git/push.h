@@ -1,5 +1,5 @@
-#ifndef __NEW_H__
-#define __NEW_H__
+#ifndef __PUSH_H__
+#define __PUSH_H__
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -8,6 +8,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-int new(char *name, char *pwd);
+int push(char *message, char *pwd);
 
 #endif
