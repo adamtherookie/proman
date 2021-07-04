@@ -150,7 +150,7 @@ int new(char *name, char *pwd) {
     	strcat(file_path, readme_path);
     	printf("+ Creating file %s\n", file_path);
     	readme = fopen(file_path, "w");
-    	fprintf(readme, "# %s\n", name);
+    	fprintf(readme, "# %s\nA super awesome project that does super awesome stuff\n", name);
     	fclose(readme);
 
     	// info.txt
@@ -205,11 +205,9 @@ int new(char *name, char *pwd) {
 
     	if (config == NULL) printf("Error: could not open config file\n");
     	else {
-<<<<<<< HEAD
     		fprintf(config, "[name: %s]\n[type: %d]\n[git: %c]\n[path: %s]\n----\n", name, type, config_git, project_path);
-=======
-    		fprintf(config, "[name: %s]\n[type: %d]\n----\n", name, type);
->>>>>>> ded3838196204c574852dcec48235e1210c4d746
+
+
     		fclose(config);
     	}
 
