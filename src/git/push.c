@@ -25,13 +25,21 @@
 #include <git/push.h>
 
 int push(char *message, char *pwd) {
-	// We need to check if the name is in the config file.
-	char buf[7];
-	char *home = getenv("HOME");
-	char *config_file = "/proman/proman.cfg";
-	char *temp = (char *) malloc(strlen(home) + strlen(config_file) + 1);
-	strcpy(temp, home);
-	strcat(temp, config_file);
-	printf("+ Checking if '%s' is in config file\n", pwd);
+	// TODO: check if name is in config file.
+    printf("+ Pushing changes in directory %s\n", pwd);
+    char *add_command = "git add .";
+    char *commit = "git commit -m ";
+    char *commit_command = (char *) malloc((strlen(commit) + strlen(message)) * sizeof(char));
+    strcpy(commit_command, commit);
+    strcat(commit_command, message);
+    char *push_command = "git push -u origin master";
+
+    system(add_command);
+    system(commit_command);
+    system(push_command);
+
+    printf("+ Done!\n");
+    free(commit_command);
+
 	return 1;
 }
