@@ -23,3 +23,8 @@
  */
 
 #include <git/pull.h>
+
+int pull() {
+    system("git pull -u origin master");
+    return 1;
+}

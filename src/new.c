@@ -39,7 +39,7 @@ struct stat st = {0};
 int new(char *name, char *pwd) {
 
 	// First of all, check if the user has a project with the same name, cuz its gonna get confusing, like this comment when it gets really long, i know i should stop right now but i just cant, its like when you want to stop something really bad but you cant, like, im trying to think of an example but i cant so sorry. anyway this comment is really long so i think i have to stop cuz this is not gud. *deap breath* *cough* *cough*
-	char buf[7];
+
 	// open config file, i know, i know, I already have another var but I'm too lazy to bring it over here and change stuff so can some nice contributer do this? I mean, if you're reading this comment can't *you* do it? *please*?
 	FILE *check_name_in_config;
 
@@ -227,18 +227,21 @@ int new(char *name, char *pwd) {
 
     	if (git == 'y') {
     		char *command = "git remote add origin ";
-    		char *git_command = malloc(strlen(command) + strlen(url) + 1);    		strcpy(git_command, command);
+			char *git_command = malloc((strlen(command) + strlen(url) + 1) * sizeof(char)); 		
+    		strcpy(git_command, command);
     		strcat(git_command, url);
 
     		chdir(name);
     		system(git_command);
-
-    		free(git_command);
+    		printf("+ Connecting to git remote\n");
     	}
-
+    	printf("Henloooo");
     	free(dir);
+    	printf("HIIIII");
     	free(file_path);
+    	printf("boooo");
     	free(temp);
+    	printf("sadaisojdasdjo");
 	} else {
 		printf("Error: Directory '%s' already exists\n", name);
 		return 0;
